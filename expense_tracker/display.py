@@ -1,5 +1,6 @@
 from rich.console import Console
 from rich.table import Table
+from expense_tracker.config import *
 
 console = Console()
 
@@ -23,7 +24,7 @@ def show_expenses(expenses: list) -> None:
               f"{expense['amount']:.2f}")
     console.print(table)
     total = calculate_total(expenses)
-    console.print(f"[bold green]Total: {total:.2f} ILS[bold green]")
+    console.print(f"[bold green]Total: {total:.2f} {CURRENCY}[/bold green]")
 
 def show_report(expenses: list) -> None:
     totals = {}
@@ -36,5 +37,11 @@ def show_report(expenses: list) -> None:
             totals[category] = 0
         totals[category] += amount
 
-    for category, total in totals.items():
-        console.print(f"{category}: {total:.2f} ILS")
+    total = 0
+    for category, amount in totals.items():
+        console.print(f"{category}: {amount:.2f} {CURRENCY}")
+        total += amount
+
+    if total > MONTHLY_BUDGET:
+        console.print(
+            f"[bold red]Warning: You are over your monthly budget![/bold red]")
