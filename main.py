@@ -1,15 +1,5 @@
-
+from expenses_list import *
 from datetime import date
-expenses = [{
-    "date": "2026-08-10",
-    "title": "Notebook",
-    "category": "school",
-    "amount": 24.90}
-    ,
-{   "date": "2026-08-11",
-    "title": "Coffee",
-    "category": "food",
-    "amount": 12.00}]
 
 def calculate_total(expenses: list) -> float:
     total = 0
@@ -58,5 +48,5 @@ def main() -> None:
         show_expenses(expenses)
 
 
-if __name__ == "__main__":
-    main()
+
+main()
