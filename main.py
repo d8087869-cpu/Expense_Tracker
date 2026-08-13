@@ -1,7 +1,9 @@
 from expenses_list import *
 from datetime import date
+import questionary
 from rich.console import Console
 from rich.table import Table
+
 
 def calculate_total(expenses: list) -> float:
     total = 0
@@ -40,15 +42,20 @@ def add_expense(
     expenses.append(new_expense)
 
 def ask_for_expense(expenses: list) -> None:
-    title = input('Enter your Title: ')
-    amount = float(input('Enter the amount: '))
-    category = input('Enter the category: ')
+    title = questionary.text('Expenses Title:').ask()
+    amount = questionary.text("Amount:").ask()
+    category = questionary.select('choose category:', 
+                                  choices=['food', 'travel', 'school', 'entertainment', 'other' ]
+                                  ).ask()
+    amount = float(amount)
     add_expense(expenses, title, amount, category)
 
 def main() -> None:
     show_expenses(expenses)
-    clinet= input('\n Do you want to add an expense? (yes/no): ')
-    if clinet.lower()== 'yes':
+    answer = questionary.confirm(
+        "Do you want to add an expense?"
+    ).ask()
+    if answer:
         ask_for_expense(expenses)
         print('\n Update expenses:')
         show_expenses(expenses)
