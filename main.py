@@ -1,5 +1,7 @@
 from expenses_list import *
 from datetime import date
+from rich.console import Console
+from rich.table import Table
 
 def calculate_total(expenses: list) -> float:
     total = 0
@@ -8,16 +10,20 @@ def calculate_total(expenses: list) -> float:
     return total 
 
 def show_expenses(expenses: list) -> None: 
+    table = Table()
+    table.add_column('Date')
+    table.add_column('Title')
+    table.add_column('category')
+    table.add_column('Amount')
+
     for expense in expenses:
-        print(expense['date'], 
-              '|',
+        table.add_row(expense['date'], 
               expense['title'],
-              '|',
               expense['category'],
-              '|',
               f'{expense['amount']:.2f}')
+    console.print(table)
     total = calculate_total(expenses)
-    print(f"Total: {total:.2f} ILS")
+    console.print(f"[bold green]Total: {total:.2f} ILS[bold green]")
 
 def add_expense( 
     expenses: list, 
@@ -48,5 +54,5 @@ def main() -> None:
         show_expenses(expenses)
 
 
-
+console = Console()
 main()
